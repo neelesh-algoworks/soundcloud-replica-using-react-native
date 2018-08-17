@@ -6,28 +6,60 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import HomeScreen from './screens/home';
+import LoginScreen from './screens/login';
+import StreamScreen from './screens/stream';
+import SearchScreen from './screens/search';
+import ProfileScreen from './screens/profile';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
+const Tabs = createBottomTabNavigator({
+  Home: HomeScreen,
+  Stream: StreamScreen,
+  Search: SearchScreen,
+  Profile: ProfileScreen
+},{
+  navigationOptions: ({navigation}) => ({
+    tabBarIcon: ({tintColor}) => {
+      const {routeName} = navigation.state;
+      let iconName;
+      if (routeName === 'Home') {
+        iconName = 'home';
+      }
+      else if (routeName === 'Search'){
+        iconName = 'search';
+      }
+      else if (routeName === 'Stream'){
+        iconName = 'flash'
+      }
+      else if (routeName === 'Profile'){
+        iconName = 'account'
+      }
+      return iconName === 'search'?
+      <MaterialIcons name = {iconName} size = {25} color = {tintColor} />:
+      <MaterialCommunityIcons name = {iconName} size = {25} color = {tintColor} />
+
+    }
+  }),
+  tabBarOptions: {
+    activeTintColor: "#fff",
+    inactiveTintColor: 'grey',
+    activeBackgroundColor: 'grey',
+    showLabel: false,
+    style: {
+      backgroundColor: "#000"
+    }
+  }
 });
 
-type Props = {};
-export default class App extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
-    );
-  }
-}
+export default Switch = createSwitchNavigator({
+  Login: LoginScreen,
+  Home: Tabs
+}, { initialRouteName: 'Login' })
 
 const styles = StyleSheet.create({
   container: {
