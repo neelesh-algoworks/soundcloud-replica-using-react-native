@@ -2,12 +2,19 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Button } from 'react-native';
 
 export default class SearchScreen extends Component {
+    static navigationOptions = {
+        headerTitle : "Search",
+        headerTitleStyle : {
+            color: "#444",
+            fontWeight: 'normal',
+        }
+    }
     render() {
         return (
             <View style={styles.container}>
                 <Button
-                    title="I am the SearchScreen"
-                    onPress={() => this.props.navigation.navigate('Profile')}
+                    title="Play Song"
+                    onPress={() => this.props.navigation.navigate('Song')}
                 />
             </View>
         );
